@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import type { Node } from 'react';
 import {
   SafeAreaView,
@@ -31,28 +31,41 @@ import {
 
 const Hello = ({children}) => (<Text>{children}</Text>)
 
-const App = () => {
-  const [state,setState] = useState(0);
+class App extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      counter: 0,
+    };
 
-  const handleIncrement = () => {
-    setState(state + 1);
+    this.handleIncrement = this.handleIncrement.bind(this);
+    this.handleDecrement = this.handleDecrement.bind(this);
+  }
+
+  handleIncrement() {
+    const { counter: ct } = this.state;
+    this.setState({ counter: ct + 1});
   };
 
-  const handleDecrement = () => {
-    setState(state - 1);
+  handleDecrement() {
+    const { counter: ct } = this.state;
+    this.setState({ counter: ct - 1});
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.subContainer}>
-        <Button action={handleDecrement} label="-" />
-        <View style={styles.contentContainer}>
-          <Text style={styles.counter}>{state}</Text>
+  render() {
+    const { counter } = this.state;
+    return (
+      <View style={styles.container}>
+        <View style={styles.subContainer}>
+          <Button action={this.handleDecrement} label="-" />
+          <View style={styles.contentContainer}>
+            <Text style={styles.counter}>{counter}</Text>
+          </View>
+          <Button action={this.handleIncrement} label="+" />
         </View>
-        <Button action={handleIncrement} label="+" />
       </View>
-    </View>
-  );
+    );
+  }
 };
 
 const styles = StyleSheet.create({
